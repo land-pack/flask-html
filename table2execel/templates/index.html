@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/ak/flask-html/table2execel/templates/index.html</title>
+<meta name="Generator" content="Vim/7.4">
+<meta name="plugin-version" content="vim7.4_v1">
+<meta name="syntax" content="none">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+-->
+</style>
+
+<button onclick="export_table()">Export<button>
+<script type='text/javascript'>
+<!--
+
+function export_table()
+{
+
+TableExport(document.getElementsByTagName("table"), {
+    headers: true,                              // (Boolean), display table headers (th or td elements) in the <thead>, (default: true)
+    footers: true,                              // (Boolean), display table footers (th or td elements) in the <tfoot>, (default: false)
+    formats: ['xls', 'csv', 'txt'],             // (String[]), filetype(s) for the export, (default: ['xls', 'csv', 'txt'])
+    filename: 'id',                             // (id, String), filename for the downloaded file, (default: 'id')
+    bootstrap: false,                           // (Boolean), style buttons using bootstrap, (default: true)
+    exportButtons: true,                        // (Boolean), automatically generate the built-in export buttons for each of the specified formats (default: true)
+    position: 'bottom',                         // (top, bottom), position of the caption element relative to table, (default: 'bottom')
+    ignoreRows: null,                           // (Number, Number[]), row indices to exclude from the exported file(s) (default: null)
+    ignoreCols: null,                           // (Number, Number[]), column indices to exclude from the exported file(s) (default: null)
+    trimWhitespace: true                        // (Boolean), remove all leading/trailing newlines, spaces, and tabs from cell text in the exported file(s) (default: false)
+});
+
+}
+
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+
+<table border="2" width="200">
+	<tr>
+	<th>Name</th>
+	<th>Age</th>
+	<th>Sex</th>
+	</tr>
+	<tr>
+	<td>Frank </td>
+	<td>12</td>
+	<td>Boy</td>
+	</tr>
+	<tr>
+	<td>Frank </td>
+	<td colspan="2">99</td>
+	</tr>
+</table>
+</table>
+
+</pre>
+</body>
+
+
+<script src="{{ url_for('static', filename='js/xlsx.core.js') }}"></script>
+<script src="{{ url_for('static', filename='js/FileSaver.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tableexport.js')}}"></script>
+<script src="{{ url_for('static', filename='js/xlsx.js')}}"></script>
+</html>
+<!-- vim: set foldmethod=manual : -->
