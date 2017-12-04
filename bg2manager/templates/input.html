@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/500.com/flask-html/bg2manager/templates/index.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="none">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+
+
+
+.oneline {
+    white-space: nowrap;
+}
+
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+window.onload=function(){
+    document.getElementById("show2").style.display="none";
+    document.getElementById("show3").style.display="none";
+    document.getElementById("myCheck").value=document.getElementById("myButton1").value
+}
+
+
+function removeByValue(arr, val) {
+  for(var i=0; i<arr.length; i++) {
+    if(arr[i] == val) {
+      arr.splice(i, 1);
+      break;
+    }
+  }
+}
+
+
+function select_type(button_name)
+{
+    var show_lst = new Array("show1","show2","show3")
+    var last_num = button_name.substring(button_name.length -1 , button_name.length);
+    var lang = "show" + last_num;
+    console.log("-lang-->" + lang);
+    removeByValue(show_lst, lang);
+    document.getElementById(lang).style.display="block";
+    for (noshow in show_lst){
+        console.log("--> " + show_lst[noshow]);
+        document.getElementById(show_lst[noshow]).style.display="none";
+    }
+    show_lst = [];
+
+}
+
+function select_play(button_name)
+{
+    document.getElementById("play_show").value=document.getElementById(button_name).value;
+}
+
+function select_prize(button_name)
+{
+    document.getElementById("prize_show").value=document.getElementById(button_name).value;
+}
+
+
+</script>
+</head>
+<body>
+
+<form method="POST" action="#">
+<div class="oneline">
+<label  for="myCheck">优惠类型:</label>
+<input  type="value" id="myCheck" disabled="disabled"/>
+<input  type="button" onclick="select_type('myButton1')" value="充值满减" id="myButton1"/>
+<input  type="button" onclick="select_type('myButton2')" value="充值送" id="myButton2"/>
+<input  type="button" onclick="select_type('myButton3')" value="流水送" id="myButton3"/>
+</div>
+<label for="title_conf">优惠券名称:</label>
+<input name="title_conf" placeholder="充值满30减5元" id="title_conf">
+<hr>
+<div id="show1">
+    <label for="recharge_conf">充值条件:</label>
+    <input name="recharge_conf" placeholder="30" id="recharge_conf">
+    <br>
+    <label for="prize_conf">减免金额:</label>
+    <input name="prize_conf" placeholder="5" id="prize_conf">
+</div>
+
+<div id="show2">
+    <label for="recharge_conf">充值条件:</label>
+    <input name="recharge_conf" placeholder="30" id="recharge_conf">
+    <br>
+    <label for="gold_conf">赠送猜球币:</label>
+    <input name="gold_conf" placeholder="30" id="gold_conf">
+</div>
+
+<div id="show3">
+    <label for="play_conf">玩法选择:</label>
+    <input name="play_conf" id="play_show" disabled="disabled">
+    <input  type="button" onclick="select_play('myButton4')" value="足球竞猜" id="myButton4"/>
+    <input  type="button" onclick="select_play('myButton5')" value="篮球竞猜" id="myButton5"/>
+    <input  type="button" onclick="select_play('myButton6')" value="疯狂杯赛" id="myButton6"/>
+    <br>
+    <label for="place_gold">流水条件:</label>
+    <input name="prize_conf" placeholder="30" id="recharge_conf">
+    <label for="place_gold">金币</label>
+    <br>
+    <label for="place_gold">赠送奖品:</label>
+    <input name="prize_show" disabled="disabled" id="prize_show">
+    <input  type="button" onclick="select_prize('myButton7')" value="猜球币" id="myButton7"/>
+    <input  type="button" onclick="select_prize('myButton8')" value="兑换券" id="myButton8"/>
+   </div>
+   <br>
+   <hr>
+    <input type="submit" value="确认添加">
+
+</form>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
