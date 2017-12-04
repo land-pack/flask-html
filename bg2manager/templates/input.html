@@ -10,8 +10,6 @@
 <meta name="colorscheme" content="none">
 <style type="text/css">
 
-
-
 .oneline {
     white-space: nowrap;
 }
@@ -25,11 +23,15 @@
 window.onload=function(){
     document.getElementById("show2").style.display="none";
     document.getElementById("show3").style.display="none";
-    document.getElementById("myCheck").value=document.getElementById("myButton1").value
+    document.getElementById("welfare_type").value=document.getElementById("myButton1").value
+    document.getElementById("myButton1").style.color="red";
 }
 
-
 function removeByValue(arr, val) {
+  /*
+   * Remove a item from array by value!
+   * just simple do it with a loop check!
+   */
   for(var i=0; i<arr.length; i++) {
     if(arr[i] == val) {
       arr.splice(i, 1);
@@ -39,85 +41,159 @@ function removeByValue(arr, val) {
 }
 
 
+function mark_it(lst, mark){
+    /*
+     * Mark, just simple mark a button or other element it with different color!
+     * There many way to do it, but i implement myself!
+     * just simple input a array as lst, and mark as your care about guy!
+     * example: mark_it(["hello","jack","frank"], "frank");
+     */
+    document.getElementById(mark).style.color="red";
+    removeByValue(lst, mark);
+    for (no_mark in lst){
+        document.getElementById(lst[no_mark]).style.color="black";
+    }
+}
+
+function post(url, params)
+{
+    // post data by self post function
+    // @param url: destination url
+    // @param params: a dict-type
+    
+    var temp = document.createElement("form");
+    temp.action = url;
+    temp.method = "post";
+    temp.style.display = "none";
+    for (var x in params){
+        var opt = document.createElement("textarea");
+        opt.name = x;
+        opt.value = params[x];
+        temp.appendChild(opt);
+        }
+   document.body.appendChild(temp);
+   temp.submit();
+   return temp;
+}
+
+function nnone(value){
+    if (value){
+        return value;
+    }else{
+        return 0;
+    }
+}
+
 function select_type(button_name)
 {
-    var show_lst = new Array("show1","show2","show3")
+
+    var show_lst = new Array("show1","show2","show3");
+    var button_lst = new Array("myButton1","myButton2","myButton3");
     var last_num = button_name.substring(button_name.length -1 , button_name.length);
     var lang = "show" + last_num;
-    console.log("-lang-->" + lang);
     removeByValue(show_lst, lang);
+
     document.getElementById(lang).style.display="block";
     for (noshow in show_lst){
-        console.log("--> " + show_lst[noshow]);
         document.getElementById(show_lst[noshow]).style.display="none";
     }
-    show_lst = [];
-
+    mark_it(button_lst, button_name);
 }
 
 function select_play(button_name)
 {
     document.getElementById("play_show").value=document.getElementById(button_name).value;
+    var button_lst = new Array("myButton4","myButton5","myButton6");
+    mark_it(button_lst, button_name);
 }
 
 function select_prize(button_name)
 {
     document.getElementById("prize_show").value=document.getElementById(button_name).value;
+    var button_lst = new Array("myButton7","myButton8");
+    mark_it(button_lst, button_name);
 }
 
 
+
+
+function confirm_add(){
+    var welfare_type = document.getElementById("welfare_type").value;
+    var prize_name = document.getElementById("prize_name").value;
+    var recharge_money_sub = document.getElementById("recharge_money").value;
+    var recharge_money_send = document.getElementById("recharge_money2").value;
+    var gold_num = document.getElementById("gold_num").value;
+    var play_gold = document.getElementById("play_gold").value;
+    var prize_show = document.getElementById("prize_show").value;
+    var play_show = document.getElementById("play_show").value;
+    console.log("welfare_type -->" + welfare_type);
+    console.log("welfare_type ->" + recharge_money);
+    console.log("welfare_type 2-->" + recharge_money2);
+    console.log("welfare_type -->" + prize_name);
+    console.log("welfare_type -->" + gold_num);
+    var params = {
+        "welfare_type": nnone(welfare_type),
+        "prize_name": nnone(prize_name),
+        "recharge_money_sub": nnone(recharge_money_sub),
+        "recharge_money_send": nnone(recharge_money_sub),
+        "gold_num":nnone(gold_num),
+        "prize_show":nnone(prize_show),
+        "play_show":nnone(play_show),
+        "play_gold":nnone(play_gold)
+    };
+    post("input", params);
+}
 </script>
 </head>
 <body>
 
-<form method="POST" action="#">
+<form>
 <div class="oneline">
-<label  for="myCheck">优惠类型:</label>
-<input  type="value" id="myCheck" disabled="disabled"/>
+<label  for="welfare_type">优惠类型:</label>
+<input  type="value" id="welfare_type" disabled="disabled" style="display:none"/>
 <input  type="button" onclick="select_type('myButton1')" value="充值满减" id="myButton1"/>
 <input  type="button" onclick="select_type('myButton2')" value="充值送" id="myButton2"/>
 <input  type="button" onclick="select_type('myButton3')" value="流水送" id="myButton3"/>
 </div>
-<label for="title_conf">优惠券名称:</label>
-<input name="title_conf" placeholder="充值满30减5元" id="title_conf">
+<label for="prize_name">优惠券名称:</label>
+<input name="prize_name" placeholder="充值满30减5元" id="prize_name">
 <hr>
 <div id="show1">
-    <label for="recharge_conf">充值条件:</label>
-    <input name="recharge_conf" placeholder="30" id="recharge_conf">
+    <label for="recharge_money">充值条件:</label>
+    <input name="recharge_money" placeholder="30" id="recharge_money">
     <br>
     <label for="prize_conf">减免金额:</label>
     <input name="prize_conf" placeholder="5" id="prize_conf">
 </div>
 
 <div id="show2">
-    <label for="recharge_conf">充值条件:</label>
-    <input name="recharge_conf" placeholder="30" id="recharge_conf">
+    <label for="recharge_money">充值条件:</label>
+    <input name="recharge_money2" placeholder="30" id="recharge_money2">
     <br>
-    <label for="gold_conf">赠送猜球币:</label>
-    <input name="gold_conf" placeholder="30" id="gold_conf">
+    <label for="gold_num">赠送猜球币:</label>
+    <input name="gold_num" placeholder="30" id="gold_num">
 </div>
 
 <div id="show3">
     <label for="play_conf">玩法选择:</label>
-    <input name="play_conf" id="play_show" disabled="disabled">
+    <input name="play_conf" id="play_show" disabled="disabled" style="display:none">
     <input  type="button" onclick="select_play('myButton4')" value="足球竞猜" id="myButton4"/>
     <input  type="button" onclick="select_play('myButton5')" value="篮球竞猜" id="myButton5"/>
     <input  type="button" onclick="select_play('myButton6')" value="疯狂杯赛" id="myButton6"/>
     <br>
     <label for="place_gold">流水条件:</label>
-    <input name="prize_conf" placeholder="30" id="recharge_conf">
+    <input name="prize_conf" placeholder="30" id="play_gold">
     <label for="place_gold">金币</label>
     <br>
     <label for="place_gold">赠送奖品:</label>
-    <input name="prize_show" disabled="disabled" id="prize_show">
+    <input name="prize_show" style="display:none;" id="prize_show">
     <input  type="button" onclick="select_prize('myButton7')" value="猜球币" id="myButton7"/>
     <input  type="button" onclick="select_prize('myButton8')" value="兑换券" id="myButton8"/>
    </div>
    <br>
    <hr>
-    <input type="submit" value="确认添加">
-
 </form>
+<button onclick="confirm_add()">确认添加</button>
 </body>
 </html>
 <!-- vim: set foldmethod=manual : -->
