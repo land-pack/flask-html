@@ -51,5 +51,11 @@ def list_page():
     return render_template("list.html", data=data)
 
 
+@app.route("/send")
+def send_prize():
+    ret = c.find({}, {"_id":1,"prize_name":1})
+    return render_template("send.html", wel_select=ret)
+
+
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(host="0.0.0.0",debug=True)
