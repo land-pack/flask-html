@@ -37,11 +37,33 @@ button {
     font-size: 16px; 
 }
 
-select {
-    font-size: 16px; 
+select option{
+    margin: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+label {
+
+    font-size: 19px;
+
+}
+.upload_button {
+    margin: 5px;
+    font-size: 19px;
+
+
+}
+
+.oneline {
+    white-space: nowrap;
+
 }
 
 </style>
+
+
 
 <script type='text/javascript'>
 <!--
@@ -56,9 +78,11 @@ function addRow(){
     var cell1_content = document.getElementById("cell1").innerHTML;
     var cell2_content = document.getElementById("cell2").innerHTML;
     var cell3_content = document.getElementById("cell3").innerHTML;
-    cell1.innerHTML = cell1_content;
-    cell2.innerHTML = cell2_content;
-    cell3.innerHTML = cell3_content;
+    cell1.innerHTML = "<td>优惠券:" + cell1_content + "</td";
+    cell2.innerHTML = "<td>有效期:" + cell2_content + "</td";
+    cell3.innerHTML = "<td>文案:" + cell3_content + "</td";
+    //cell2.innerHTML = cell2_content;
+    //cell3.innerHTML = cell3_content;
 }
 
 
@@ -82,6 +106,42 @@ function addRow(){
 <h2>选择派发用户</h2>
 <hr>
 
+<div id="part2">
+
+  <form action="">
+    <label for="send_target" class="oneline">派发方式</label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    批量派发<input type="radio" name="send_target" value="multi" id="send_target" class="oneline">
+    单个派发<input type="radio" name="send_target" value="one" id="send_target" class="oneline">
+    <!-- 用户选择 -->
+    <br>
+    <label for="send_target" class="oneline">用户ID</label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" name="send_target" value="导入名单" id="send_target" class="upload_button">
+    <input type="button" name="send_target" value="用户ID" id="send_target" class="upload_button">
+    <br>
+    <label for="send_target" class="oneline">PUSH通知</label>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    标题   <input type="text" name="title"><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    内容   <input type="text" name="content" placeholder="不能超过17个字"><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    链接   <input type="text" name="link" placeholder="默认到背包"><br>
+
+
+</form>
+</div>
+
+<hr>
+<button onclick="addRow()">确认派发</button>
+<!--all template below -->
 <div id="cell1" style="display:none">
         <select>
               {% for i in wel_select %}
