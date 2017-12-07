@@ -51,9 +51,13 @@ def list_page():
     return render_template("list.html", data=data)
 
 
-@app.route("/send")
+@app.route("/send", methods=["GET","POST"])
 def send_prize():
     ret = c.find({}, {"_id":1,"prize_name":1})
+    if request.method == 'POST':
+        data = request.values
+        #data = to_dict(data)
+        print 'data ==>', data
     return render_template("send.html", wel_select=ret)
 
 

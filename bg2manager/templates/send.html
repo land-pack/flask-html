@@ -81,25 +81,170 @@ function addRow(){
     cell1.innerHTML = "<td>优惠券:" + cell1_content + "</td";
     cell2.innerHTML = "<td>有效期:" + cell2_content + "</td";
     cell3.innerHTML = "<td>文案:" + cell3_content + "</td";
-    //cell2.innerHTML = cell2_content;
-    //cell3.innerHTML = cell3_content;
 }
 
 
 function sendPrize(){
-    
+    var table = document.getElementById('mytable');
+    //var select_obj = document.getElementById("mytable").rows[0].cells[0];
+    var select_obj = document.getElementById("cell1");
+    var select_value = select_obj.options[select_obj.selectedIndex].value;
+    console.log(select_value);
 }
+
+
+function parserTable(){
+    var t=document.getElementById("mytable");
+    var row = '';
+    var tr = '';
+    var c1 = '';
+
+    for (i=0; i <t.rows.length; i++){
+        console.log("hello ..");
+        row = t.rows[i];
+        //tr = row.getElementsByTagName("tr");
+        c1 = row.getElementsByTagName("td")
+        console.log(c1);
+
+        // var tr = t.getElementsByTagName("tr");
+        // var s=tr[1];
+        // tr[0].querySelector("select").value
+
+    }
+
+}
+
+function post(url, params)
+{
+    // post data by self post function
+    // @param url: destination url
+    // @param params: a dict-type
+    
+    var temp = document.createElement("form");
+    temp.action = url;
+    temp.method = "post";
+    temp.style.display = "none";
+    for (var x in params){
+        var opt = document.createElement("textarea");
+        opt.name = x;
+        opt.value = params[x];
+        temp.appendChild(opt);
+        }
+   document.body.appendChild(temp);
+   temp.submit();
+   return temp;
+}
+
+function readTable(){
+
+    var a =new  Array();
+    var trDom = document.querySelectorAll( 'tbody tr' );
+    for( var i=0;i<trDom.length;i++ ){
+	    console.log( trDom[i] );
+	    var c = trDom[i].getElementsByClassName('c1');
+	    console.log(c[0].value);
+	    var c2 = trDom[i].getElementsByClassName('c2');
+	    console.log( c2[0].value );
+	    var c3 = trDom[i].getElementsByClassName('c3');
+	    console.log( c3[0].value );
+        if(c[0].value && c2[0].value && c3[0].value){
+            a[i] = {
+                "type":c[0].value,
+                "date":c2[0].value,
+                "content": c3[0].value
+            };
+        }
+    }
+
+    console.log(a);
+    return a;
+
+}
+
+function submit_mycode(){
+    var arr = readTable();
+    ajax({
+            type: "POST",
+            url: "/send",
+            data: JSON.stringify(arr),
+            dataType: 'json'
+    
+    })
+    //post("/send", {"data": arr});
+    console.log("upload success");
+
+}
+
+/// new function 
+var createAjax = function () {
+    var xhr = null;
+    try {
+        xhr = new ActiveXObject("microsoft.xmlhttp");
+    } catch (e1) {
+        try {
+            xhr = new XMLHttpRequest();
+        } catch (e2) {
+            window.alert("您的浏览器不支持ajax，请更换！");
+        }
+    }
+    return xhr;
+};
+var ajax = function (conf) {
+    var type = conf.type;
+    var url = conf.url;
+    var data = conf.data;
+    var dataType = conf.dataType;
+    var success = conf.success;
+    if (type == null) {
+        type = "get";
+    }
+    if (dataType == null) {
+        dataType = "text";
+    }
+    var xhr = createAjax();
+    xhr.open(type, url, true);
+    if (type == "GET" || type == "get") {
+        xhr.send(null);
+    } else if (type == "POST" || type == "post") {
+        xhr.setRequestHeader("content-type",
+            "application/x-www-form-urlencoded");
+        xhr.send(data);
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (dataType == "text" || dataType == "TEXT") {
+                if (success != null) {
+                    success(xhr.responseText);
+                }
+            } else if (dataType == "xml" || dataType == "XML") {
+                if (success != null) {
+                    success(xhr.responseXML);
+                }
+            } else if (dataType == "json" || dataType == "JSON") {
+                if (success != null) {
+                    success(eval("(" + xhr.responseText + ")"));
+                }
+            }
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+            //alert("请求失败!");
+        }
+    };
+};
+
+
+
+
 </script>
 </head>
 <body>
 <h2>选择优惠券</h2>
 <hr>
 <div>
-    <table id="mytable">
-        <tr style="display:none">
-            <td>cell1</td>
-            <td>cell2</td>
-            <td>cell3</td>
+    <table id="mytable" class="aa">
+        <tr style="display:none" class="aaa">
+            <td class="c1">cell1</td>
+            <td class="c2">cell2</td>
+            <td class="c3">cell3</td>
        </tr>
     </table>
 </div>
@@ -137,8 +282,6 @@ function sendPrize(){
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     链接   <input type="text" name="link" placeholder="默认到背包"><br>
-
-
 </form>
 </div>
 
@@ -146,22 +289,20 @@ function sendPrize(){
 <button onclick="sendPrize()">确认派发</button>
 <!--all template below -->
 <div id="cell1" style="display:none">
-        <select>
+        <select id="mySelect" class="c1">
               {% for i in wel_select %}
-              <option value="{{ i.get('_id') }} ">{{ i.get("prize_name") }}</option>
+              <option  value="{{ i.get('_id') }} ">{{ i.get("prize_name") }}</option>
               {% endfor %}
         </select>
 </div>
 
 <div id="cell2" style="display:none">
-        <input type="datetime-local" name="user_date" />
+        <input type="date" name="user_date" class="c2" />
 </div>
 
 <div id="cell3" style="display:none">
-        <input type="text" name="content">
+        <input type="text" name="content" class="c3">
 </div>
-
-
 
 </body>
 </html>
