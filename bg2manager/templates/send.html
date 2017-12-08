@@ -46,7 +46,6 @@ label {
     white-space: nowrap;
 
 }
-
 </style>
 
 
@@ -55,6 +54,8 @@ label {
 <!--
 
 -->
+
+
 function addRow(){
     var table = document.getElementById('mytable');
     var row = table.insertRow(0);
@@ -75,8 +76,8 @@ function sendPrize(){
     var table = document.getElementById('mytable');
     //var select_obj = document.getElementById("mytable").rows[0].cells[0];
     var select_obj = document.getElementById("cell1");
-    var select_value = select_obj.options[select_obj.selectedIndex].value;
-    console.log(select_value);
+    //var select_value = select_obj.options[select_obj.selectedIndex].value;
+    //console.log(select_value);
 }
 
 function readTable(){
@@ -105,20 +106,24 @@ function readTable(){
 
 function submit_mycode(){
     var arr = readTable();
-    //var uids = {1002922, 1002923};
+    var title = document.getElementById("s_title").value;
+    var content = document.getElementById("s_content").value;
+    var url = document.getElementById("s_link").value;
     var data = {
         "table": arr,
-        "uids": [12,33,44]
+        "uids": window.uid_set.replace(/\n/g,",") ,
+        "title": title,
+        "content": content,
+        "url": url
     }
 
     ajax({
             type: "POST",
             url: "/send",
-            data: JSON.stringify(arr),
+            data: JSON.stringify(data),
             dataType: 'json'
     
     })
-    //post("/send", {"data": arr});
     console.log("upload success");
 
 }
@@ -128,13 +133,10 @@ function pick_uid(){
     var value2 = document.getElementById("send_way2").value;
     var x2 = document.getElementById("send_way2").checked;
     if (x2){
-        console.log("kk1");
         document.getElementById("id_uid").style.display = "inline-block";
         document.getElementById("id_uids").style.display = "none";
 
     }else{
-        //var x1 = document.getElementById("send_way1").checked;
-        console.log("kk2");
         document.getElementById("id_uids").style.display ="inline-block";
         document.getElementById("id_uid").style.display = "none";
     }
@@ -147,7 +149,22 @@ window.onload=function(){
         document.getElementById("id_uid").style.display = "inline-block";
         document.getElementById("id_uids").style.display = "none";
 }
-</script>
+// upload file ----
+oFReader = new FileReader(), rFilter=/^(?:csv)$/i;
+
+oFReader.onload = function (oFREvent) {
+  console.log(oFREvent.target.result);
+  window.uid_set = oFREvent.target.result;
+};
+
+function loadImageFile() {
+  if (document.getElementById("id_uids").files.length === 0) { return; }
+  var oFile = document.getElementById("id_uids").files[0];
+  oFReader.readAsBinaryString(oFile);
+}
+
+
+</script
 </head>
 <body>
 <h2>选择优惠券</h2>
@@ -178,7 +195,7 @@ window.onload=function(){
     <br>
     <label for="send_target" class="oneline">用户ID</label>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" name="send_target" value="导入名单" id="id_uids">
+    <input type="file" id="id_uids" name="names" value="导入名单" class="inputfile" onchange="loadImageFile()"/>
     <input type="text" name="send_target" placeholder="用户ID" id="id_uid">
     <br>
     <label for="send_target" class="oneline">PUSH通知</label>
@@ -186,20 +203,20 @@ window.onload=function(){
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    标题   <input type="text" name="title"><br>
+    标题   <input type="text" name="title" id="s_title"><br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    内容   <input type="text" name="content" placeholder="不能超过17个字"><br>
+    内容   <input type="text" name="content" placeholder="不能超过17个字" id="s_content"><br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    链接   <input type="text" name="link" placeholder="默认到背包"><br>
+    链接   <input type="text" name="link" placeholder="默认到背包" id="s_link"><br>
 </form>
 </div>
 
 <hr>
-<button onclick="sendPrize()">确认派发</button>
+<button onclick="submit_mycode()">确认派发</button>
 <!--all template below -->
 <div id="cell1" style="display:none">
         <select id="mySelect" class="c1">
