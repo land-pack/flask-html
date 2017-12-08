@@ -81,6 +81,7 @@ function addRow(){
     cell1.innerHTML = "<td>优惠券:" + cell1_content + "</td";
     cell2.innerHTML = "<td>有效期:" + cell2_content + "</td";
     cell3.innerHTML = "<td>文案:" + cell3_content + "</td";
+    document.getElementById('datePicker').valueAsDate = new Date();
 }
 
 
@@ -155,14 +156,18 @@ function readTable(){
             };
         }
     }
-
     console.log(a);
     return a;
-
 }
 
 function submit_mycode(){
     var arr = readTable();
+    //var uids = {1002922, 1002923};
+    var data = {
+        "table": arr,
+        "uids": [12,33,44]
+    }
+
     ajax({
             type: "POST",
             url: "/send",
@@ -266,7 +271,7 @@ var ajax = function (conf) {
     <label for="send_target" class="oneline">用户ID</label>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="button" name="send_target" value="导入名单" id="send_target" class="upload_button">
-    <input type="button" name="send_target" value="用户ID" id="send_target" class="upload_button">
+    <input type="text" name="send_target" placeholder="用户ID" id="send_target" class="upload_button">
     <br>
     <label for="send_target" class="oneline">PUSH通知</label>
     <br>
@@ -297,7 +302,7 @@ var ajax = function (conf) {
 </div>
 
 <div id="cell2" style="display:none">
-        <input type="date" name="user_date" class="c2" />
+        <input type="date" name="user_date" class="c2" id="datePicker" />
 </div>
 
 <div id="cell3" style="display:none">
