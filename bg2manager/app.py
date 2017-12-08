@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 
 @app.route("/")
+@app.route("/index")
 def index():
 	return render_template("index.html")
 
@@ -59,6 +60,14 @@ def send_prize():
         #data = to_dict(data)
         print 'data ==>', data
     return render_template("send.html", wel_select=ret)
+
+
+@app.route("/history", methods = ["GET", "POST"])
+def history():
+    return render_template("history.html")
+
+
+
 
 
 if __name__ == '__main__':

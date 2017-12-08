@@ -1,8 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>~/500.com/flask-html/bg2manager/templates/list.html</title>
+{% extends "base.html" %}
+
+{% block content %}
 <style type="text/css">
 <!--
 -->
@@ -10,7 +8,8 @@
 table
 {
   border-collapse:collapse;
-  width:100%;
+  width:70%;
+  align:"center";
 }
 
 td {
@@ -56,5 +55,4 @@ table, td, th
 
 
 </body>
-</html>
-<!-- vim: set foldmethod=manual : -->
+{% endblock %}

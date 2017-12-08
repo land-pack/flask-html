@@ -1,13 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>~/500.com/flask-html/bg2manager/templates/send.html</title>
-<meta name="Generator" content="Vim/8.0">
-<meta name="plugin-version" content="vim7.4_v2">
-<meta name="syntax" content="none">
-<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
-<meta name="colorscheme" content="none">
+{% extends "base.html" %}
+
+
+{% block content %}
+
 <style type="text/css">
 <!--
 -->
@@ -26,16 +21,7 @@ table ,tr, th
   border:1px solid black;
   }
 
-button { 
-    background-color: #4CAF50; /* Green */ 
-    border: none; 
-    color: white; 
-    padding: 15px 32px; 
-    text-align: center; 
-    text-decoration: none; 
-    display: inline-block; 
-    font-size: 16px; 
-}
+
 
 select option{
     margin: 20px;
@@ -93,49 +79,6 @@ function sendPrize(){
     console.log(select_value);
 }
 
-
-function parserTable(){
-    var t=document.getElementById("mytable");
-    var row = '';
-    var tr = '';
-    var c1 = '';
-
-    for (i=0; i <t.rows.length; i++){
-        console.log("hello ..");
-        row = t.rows[i];
-        //tr = row.getElementsByTagName("tr");
-        c1 = row.getElementsByTagName("td")
-        console.log(c1);
-
-        // var tr = t.getElementsByTagName("tr");
-        // var s=tr[1];
-        // tr[0].querySelector("select").value
-
-    }
-
-}
-
-function post(url, params)
-{
-    // post data by self post function
-    // @param url: destination url
-    // @param params: a dict-type
-    
-    var temp = document.createElement("form");
-    temp.action = url;
-    temp.method = "post";
-    temp.style.display = "none";
-    for (var x in params){
-        var opt = document.createElement("textarea");
-        opt.name = x;
-        opt.value = params[x];
-        temp.appendChild(opt);
-        }
-   document.body.appendChild(temp);
-   temp.submit();
-   return temp;
-}
-
 function readTable(){
 
     var a =new  Array();
@@ -180,65 +123,30 @@ function submit_mycode(){
 
 }
 
-/// new function 
-var createAjax = function () {
-    var xhr = null;
-    try {
-        xhr = new ActiveXObject("microsoft.xmlhttp");
-    } catch (e1) {
-        try {
-            xhr = new XMLHttpRequest();
-        } catch (e2) {
-            window.alert("您的浏览器不支持ajax，请更换！");
-        }
+function pick_uid(){
+    var value1 = document.getElementById("send_way1").value;
+    var value2 = document.getElementById("send_way2").value;
+    var x2 = document.getElementById("send_way2").checked;
+    if (x2){
+        console.log("kk1");
+        document.getElementById("id_uid").style.display = "inline-block";
+        document.getElementById("id_uids").style.display = "none";
+
+    }else{
+        //var x1 = document.getElementById("send_way1").checked;
+        console.log("kk2");
+        document.getElementById("id_uids").style.display ="inline-block";
+        document.getElementById("id_uid").style.display = "none";
     }
-    return xhr;
-};
-var ajax = function (conf) {
-    var type = conf.type;
-    var url = conf.url;
-    var data = conf.data;
-    var dataType = conf.dataType;
-    var success = conf.success;
-    if (type == null) {
-        type = "get";
-    }
-    if (dataType == null) {
-        dataType = "text";
-    }
-    var xhr = createAjax();
-    xhr.open(type, url, true);
-    if (type == "GET" || type == "get") {
-        xhr.send(null);
-    } else if (type == "POST" || type == "post") {
-        xhr.setRequestHeader("content-type",
-            "application/x-www-form-urlencoded");
-        xhr.send(data);
-    }
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            if (dataType == "text" || dataType == "TEXT") {
-                if (success != null) {
-                    success(xhr.responseText);
-                }
-            } else if (dataType == "xml" || dataType == "XML") {
-                if (success != null) {
-                    success(xhr.responseXML);
-                }
-            } else if (dataType == "json" || dataType == "JSON") {
-                if (success != null) {
-                    success(eval("(" + xhr.responseText + ")"));
-                }
-            }
-        } else if (xhr.readyState == 4 && xhr.status != 200) {
-            //alert("请求失败!");
-        }
-    };
-};
 
 
+}
 
 
+window.onload=function(){
+        document.getElementById("id_uid").style.display = "inline-block";
+        document.getElementById("id_uids").style.display = "none";
+}
 </script>
 </head>
 <body>
@@ -264,14 +172,14 @@ var ajax = function (conf) {
   <form action="">
     <label for="send_target" class="oneline">派发方式</label>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    批量派发<input type="radio" name="send_target" value="multi" id="send_target" class="oneline">
-    单个派发<input type="radio" name="send_target" value="one" id="send_target" class="oneline">
+    批量派发<input type="radio" name="send_target" value="1" id="send_way1" class="oneline" onchange="pick_uid()">
+    单个派发<input type="radio" name="send_target" value="-1" id="send_way2" class="oneline" onchange="pick_uid()" checked="checked" >
     <!-- 用户选择 -->
     <br>
     <label for="send_target" class="oneline">用户ID</label>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" name="send_target" value="导入名单" id="send_target" class="upload_button">
-    <input type="text" name="send_target" placeholder="用户ID" id="send_target" class="upload_button">
+    <input type="button" name="send_target" value="导入名单" id="id_uids">
+    <input type="text" name="send_target" placeholder="用户ID" id="id_uid">
     <br>
     <label for="send_target" class="oneline">PUSH通知</label>
     <br>
@@ -308,7 +216,7 @@ var ajax = function (conf) {
 <div id="cell3" style="display:none">
         <input type="text" name="content" class="c3">
 </div>
+<script src="{{ url_for('static', filename='js/my.js') }}"></script>
 
-</body>
-</html>
-<!-- vim: set foldmethod=manual : -->
+
+{% endblock %}

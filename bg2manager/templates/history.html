@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<br>
+<input type="date" name="begin" class="begin" id="begin"/>
+<input type="date" name="end" class="end" id="end"/>
+
+<button>查询</button>
+
+<hr>
+
+<table>
+    <tr>
+        <th>序号</th>
+        <th>优惠券类型</th>
+        <th>有效期</th>
+        <th>派发方式</th>
+        <th>push</th>
+        <th>派发日期</th>
+    </tr>
+
+</table>
+
+
+<script type="text/javascript">
+
+window.onload=function(){
+    document.getElementById('begin').valueAsDate = new Date();
+    document.getElementById('end').valueAsDate = new Date();
+}
+
+</script>
+
+{% endblock %}

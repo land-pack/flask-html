@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Welcome | Landpack</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="none">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/my.css')}}">
+<style type="text/css">
+<!--
+-->
+body { margin: 0;}
+
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #98f322;
+    color: black;
+
+}
+
+.topnav a.active {
+    background-color: #98f322;
+    color:black;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="/">Home</a>
+    <a class="/list" href="/list">List</a>
+    <a class="/input" href="/input">Input</a>
+    <a class="/send" href="/send">Send</a>
+    <a class="/history" href="/history">History</a>
+</div>
+
+<!-- content -->
+<div style="padding-left:16px">
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
