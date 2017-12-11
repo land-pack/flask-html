@@ -109,9 +109,17 @@ function submit_mycode(){
     var title = document.getElementById("s_title").value;
     var content = document.getElementById("s_content").value;
     var url = document.getElementById("s_link").value;
+    var uid_set = document.getElementById('id_uid').value;
+    if (uid_set){
+        //
+        uid_set = document.getElementById('id_uid').value;
+    }else{
+
+        uid_set =window.uid_set.replace(/\n/g,","); 
+    }
     var data = {
         "table": arr,
-        "uids": window.uid_set.replace(/\n/g,",") ,
+        "uids": uid_set,
         "title": title,
         "content": content,
         "url": url

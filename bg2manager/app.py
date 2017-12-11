@@ -1,14 +1,21 @@
+
 import os
 import datetime
-from flask import Flask, render_template 
+import json
+import ujson
+from flask import Flask, render_template, redirect, url_for
 from flask import request
 from pymongo import MongoClient
+import redis
 
-url = os.getenv("OFFLINE_MONGODB")
-client = MongoClient(url)
-db = client.crazy_bet
+mongo_url = os.getenv("OFFLINE_MONGODB")
+redis_url = os.getenv("OFFLINE_REDIS")
 
+mongo_client = MongoClient(mongo_url)
+db =mongo_client.crazy_bet
 c  = db.t_backpack_template
+
+redis_client = redis.Redis(host=redis_url)
 
 
 app = Flask(__name__)
@@ -54,11 +61,30 @@ def list_page():
 
 @app.route("/send", methods=["GET","POST"])
 def send_prize():
-    ret = c.find({}, {"_id":1,"prize_name":1})
+    ret = c.find({}, {"_id":1,"prize_name":1, "prize_num":1, "prize_type":1})
+
+
+
     if request.method == 'POST':
+        id_to_prize_info = {str(i.get('_id')):{"prize_num":i.get("prize_num"), "prize_type":i.get("prize_type"), "_id": str(i.get("_id"))} for i in ret}
         data = request.values
-        #data = to_dict(data)
-        print 'data ==>', data
+        data, _ = data.items()[0]
+        data = json.loads(data)
+        print 'table ==>', data.get("table")
+        print 'uids ==>', data.get("uids")
+        print 'title ==>', data.get("title")
+        print 'content ==>', data.get("content")
+        print 'link ==>', data.get("url")
+        _table = data.get("table")
+        print 'map -->', id_to_prize_info
+        print '_table -->', type(_table)
+        new_table = [id_to_prize_info.get(i.get("type").strip()) for i in _table]
+        print 'new_table -->', new_table
+        data.update({"table":new_table})
+        redis_client.rpush('REDIS:BACKPACK:PRIZE:PUSH:QUEUE', ujson.dumps(data))
+        redis_client.publish('REDIS:BACKPACK:PRIZE:PUSH:NEW', 1)
+        #return redirect(url_for('index'))
+
     return render_template("send.html", wel_select=ret)
 
 

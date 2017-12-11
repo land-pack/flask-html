@@ -116,21 +116,33 @@ function confirm_add(){
     var prize_name = document.getElementById("prize_name").value;
     var recharge_money_sub = document.getElementById("recharge_money").value;
     var recharge_money_send = document.getElementById("recharge_money2").value;
-    var gold_num = document.getElementById("gold_num").value;
+    //var gold_num = document.getElementById("gold_num").value;
     var play_gold = document.getElementById("play_gold").value;
     var prize_show = document.getElementById("prize_show").value;
     var play_show = document.getElementById("play_show").value;
+    var prize_num1 = document.getElementById("prize_num1").value;
+    var prize_num2 = document.getElementById("prize_num2").value;
+    var prize_num3 = document.getElementById("prize_num3").value;
+    var prize_num = parseInt(nnone(prize_num1)) + parseInt(nnone(prize_num2)) + parseInt(nnone(prize_num3));
     console.log("welfare_type -->" + welfare_type);
     console.log("welfare_type ->" + recharge_money);
     console.log("welfare_type 2-->" + recharge_money2);
     console.log("welfare_type -->" + prize_name);
-    console.log("welfare_type -->" + gold_num);
+    //console.log("welfare_type -->" + gold_num);
+    var my_prize_type = {
+        "充值满减":0, //减人民币
+        "充值送":1, // 送金币
+        "流水送":1 //送金币
+
+    }
+
     var params = {
         "welfare_type": nnone(welfare_type),
         "prize_name": nnone(prize_name),
         "recharge_money_sub": nnone(recharge_money_sub),
         "recharge_money_send": nnone(recharge_money_sub),
-        "gold_num":nnone(gold_num),
+        "prize_num":nnone(prize_num),
+        "prize_type":nnone(my_prize_type[prize_name]),
         "prize_show":nnone(prize_show),
         "play_show":nnone(play_show),
         "play_gold":nnone(play_gold)
@@ -157,7 +169,7 @@ function confirm_add(){
     <input name="recharge_money" placeholder="30" id="recharge_money">
     <br>
     <label for="prize_conf">减免金额:</label>
-    <input name="prize_conf" placeholder="5" id="prize_conf">
+    <input name="prize_conf" placeholder="5" id="prize_num1">
 </div>
 
 <div id="show2">
@@ -165,7 +177,7 @@ function confirm_add(){
     <input name="recharge_money2" placeholder="30" id="recharge_money2">
     <br>
     <label for="gold_num">赠送猜球币:</label>
-    <input name="gold_num" placeholder="30" id="gold_num">
+    <input name="gold_num" placeholder="30" id="prize_num2">
 </div>
 
 <div id="show3">
@@ -183,6 +195,9 @@ function confirm_add(){
     <input name="prize_show" style="display:none;" id="prize_show">
     <input  type="button" onclick="select_prize('myButton7')" value="猜球币" id="myButton7"/>
     <input  type="button" onclick="select_prize('myButton8')" value="兑换券" id="myButton8"/>
+    <br>
+    <label for="gold_num">赠送猜球币:</label>
+    <input name="gold_num" placeholder="30" id="prize_num3">
    </div>
    <br>
    <hr>
