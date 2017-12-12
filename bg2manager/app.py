@@ -66,7 +66,16 @@ def send_prize():
 
 
     if request.method == 'POST':
-        id_to_prize_info = {str(i.get('_id')):{"prize_num":i.get("prize_num"), "prize_type":i.get("prize_type"), "_id": str(i.get("_id"))} for i in ret}
+        #id_to_prize_info = {str(i.get('_id')):{"prize_num":i.get("prize_num"), "prize_type":i.get("prize_type"), "_id": str(i.get("_id"))} for i in ret}
+        id_to_prize_info = {}
+        for i in ret:
+            new_item = {
+                "wid":str(i.get("_id")),
+                "prize_num": i.get("prize_num"),
+                "prize_type":i.get("prize_type"),
+            }
+            id_to_prize_info[str(i.get("_id"))] = new_item
+
         data = request.values
         data, _ = data.items()[0]
         data = json.loads(data)
@@ -78,9 +87,11 @@ def send_prize():
         _table = data.get("table")
         print 'map -->', id_to_prize_info
         print '_table -->', type(_table)
-        new_table = [id_to_prize_info.get(i.get("type").strip()) for i in _table]
-        print 'new_table -->', new_table
-        data.update({"table":new_table})
+
+        new_table = [i.update(id_to_prize_info.get(i.get("type").strip())) for i in _table]
+
+        print 'new_table -->', _table
+        data.update({"table":_table})
         redis_client.rpush('REDIS:BACKPACK:PRIZE:PUSH:QUEUE', ujson.dumps(data))
         redis_client.publish('REDIS:BACKPACK:PRIZE:PUSH:NEW', 1)
         #return redirect(url_for('index'))

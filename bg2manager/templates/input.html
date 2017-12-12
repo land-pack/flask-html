@@ -116,6 +116,7 @@ function confirm_add(){
     var prize_name = document.getElementById("prize_name").value;
     var recharge_money_sub = document.getElementById("recharge_money").value;
     var recharge_money_send = document.getElementById("recharge_money2").value;
+    var validity_date = document.getElementById("datePicker").value;
     //var gold_num = document.getElementById("gold_num").value;
     var play_gold = document.getElementById("play_gold").value;
     var prize_show = document.getElementById("prize_show").value;
@@ -123,6 +124,7 @@ function confirm_add(){
     var prize_num1 = document.getElementById("prize_num1").value;
     var prize_num2 = document.getElementById("prize_num2").value;
     var prize_num3 = document.getElementById("prize_num3").value;
+
     var prize_num = parseInt(nnone(prize_num1)) + parseInt(nnone(prize_num2)) + parseInt(nnone(prize_num3));
     console.log("welfare_type -->" + welfare_type);
     console.log("welfare_type ->" + recharge_money);
@@ -145,7 +147,8 @@ function confirm_add(){
         "prize_type":nnone(my_prize_type[prize_name]),
         "prize_show":nnone(prize_show),
         "play_show":nnone(play_show),
-        "play_gold":nnone(play_gold)
+        "play_gold":nnone(play_gold),
+        "validity_date":nnone(validity_date)
     };
     post("/input", params);
 }
