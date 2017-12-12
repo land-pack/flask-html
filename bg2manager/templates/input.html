@@ -15,10 +15,10 @@
 
 -->
 window.onload=function(){
-    document.getElementById("show2").style.display="none";
+    document.getElementById("show1").style.display="none";
     document.getElementById("show3").style.display="none";
     document.getElementById("welfare_type").value=document.getElementById("myButton1").value
-    document.getElementById("myButton1").style.color="red";
+    document.getElementById("myButton2").style.color="red";
 }
 
 function removeByValue(arr, val) {
@@ -157,7 +157,7 @@ function confirm_add(){
 <div class="oneline">
 <label  for="welfare_type">优惠类型:</label>
 <input  type="value" id="welfare_type" disabled="disabled" style="display:none"/>
-<input  type="button" onclick="select_type('myButton1')" value="充值满减" id="myButton1"/>
+<input  type="button" onclick="select_type('myButton1')" value="充值满减" id="myButton1" disabled="disabled"/>
 <input  type="button" onclick="select_type('myButton2')" value="充值送" id="myButton2"/>
 <input  type="button" onclick="select_type('myButton3')" value="流水送" id="myButton3"/>
 </div>
