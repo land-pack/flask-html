@@ -92,6 +92,7 @@ function select_type(button_name)
         document.getElementById(show_lst[noshow]).style.display="none";
     }
     mark_it(button_lst, button_name);
+    document.getElementById("welfare_type").value=document.getElementById(button_name).value
 }
 
 function select_play(button_name)
@@ -137,15 +138,15 @@ function confirm_add(){
     console.log("welfare_type -->" + prize_name);
     //console.log("welfare_type -->" + gold_num);
     var params = {
-        "welfare_type": nnone(welfare_type),
+        "pid_type_name": nnone(welfare_type),
         "prize_name": nnone(prize_name),
-        "recharge_money_sub": nnone(recharge_money_sub),
-        "recharge_money_send": nnone(recharge_money_sub),
+        //"recharge_money_sub": nnone(recharge_money_sub),
+        //"recharge_money_send": nnone(recharge_money_sub),
         "prize_num":nnone(prize_num),
-        "prize_type":window.prize_type_id,
+        //"prize_type":window.prize_type_id,
         "prize_show":nnone(prize_show),
         "play_show":nnone(play_show),
-        "play_gold":nnone(play_gold)
+        "require":parseInt(nnone(play_gold)) + parseInt(nnone(recharge_money_send))
       //  "validity_date":nnone(validity_date)
     };
     post("/input", params);

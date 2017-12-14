@@ -1,4 +1,4 @@
-
+#coding: utf-8
 import os
 import datetime
 import json
@@ -36,8 +36,30 @@ def input():
         data = request.values
         data = to_dict(data)
         print 'data ==>', data
+        if u"充值" in data.get("pid_type_name"):
+            pid_type = 1
+        else:
+            pid_type = 0
+        
+        if u"足球" in data.get("play_show"):
+            inout = 1
+        elif u'篮球' in data.get("play_show"):
+            inout = 210
+        elif u'疯狂' in data.get("play_show"):
+            inout = 210
+        else:
+            inout = -1
+
+        if u'兑换券' in data.get("prize_show"):
+            prize_type = 3
+        else:
+            prize_type = 1 # gold default
+
         data.update({
-            "created": datetime.datetime.now()
+            "created": datetime.datetime.now(),
+            "pid_type": pid_type,
+            "inout": inout,
+            "prize_type": prize_type
         })
         c.insert(data)
     return render_template("input.html")
@@ -61,7 +83,7 @@ def list_page():
 
 @app.route("/send", methods=["GET","POST"])
 def send_prize():
-    ret = c.find({}, {"_id":1,"prize_name":1, "prize_num":1, "prize_type":1})
+    ret = c.find({}, {"_id":1,"prize_name":1, "prize_num":1, "prize_type":1, "require":1, "pid_type":1, "inout": 1})
 
 
 
@@ -73,6 +95,9 @@ def send_prize():
                 "wid":str(i.get("_id")),
                 "prize_num": i.get("prize_num"),
                 "prize_type":i.get("prize_type"),
+                "require": i.get("require"),
+                "which":i.get("pid_type"),
+                "inout": i.get("inout")
             }
             id_to_prize_info[str(i.get("_id"))] = new_item
 
