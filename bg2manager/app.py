@@ -46,7 +46,7 @@ def input():
         elif u'篮球' in data.get("play_show"):
             inout = 210
         elif u'疯狂' in data.get("play_show"):
-            inout = 210
+            inout = 14
         else:
             inout = -1
 
@@ -97,7 +97,8 @@ def send_prize():
                 "prize_type":i.get("prize_type"),
                 "require": i.get("require"),
                 "which":i.get("pid_type"),
-                "inout": i.get("inout")
+                "inout": i.get("inout"),
+                "pid_type":i.get("pid_type")
             }
             id_to_prize_info[str(i.get("_id"))] = new_item
 
@@ -119,7 +120,7 @@ def send_prize():
         data.update({"table":_table})
         redis_client.rpush('REDIS:BACKPACK:PRIZE:PUSH:QUEUE', ujson.dumps(data))
         redis_client.publish('REDIS:BACKPACK:PRIZE:PUSH:NEW', 1)
-        #return redirect(url_for('index'))
+        #return url_for('index')
 
     return render_template("send.html", wel_select=ret)
 
